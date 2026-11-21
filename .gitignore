@@ -11,6 +11,7 @@ entrenamiento/.hf_cbc_cache/
 entrenamiento/mrhisum_text_data/
 
 # Salidas generadas localmente
+outputs/
 **/staticfiles/
 **/media/
 *.sqlite3

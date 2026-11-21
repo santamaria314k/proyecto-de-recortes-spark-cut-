@@ -1,0 +1,67 @@
+{
+  "dataset": "behavior-in-the-wild/content-behavior-corpus",
+  "label": "replay score averaged over each 10\u201345 second transcript window; percentile ranked within its own video",
+  "split": "official test videos; validation split hashed by video_id from train",
+  "windows": {
+    "train": 33659,
+    "validation": 3489,
+    "test": 3438
+  },
+  "videos": {
+    "train": 5257,
+    "validation": 549,
+    "test": 545
+  },
+  "original_model_test": {
+    "videos_evaluated": 545,
+    "spearman_per_video": 0.010528443517478149,
+    "precision_at_3": 0.2746177370030581,
+    "peak_auc_per_video": 0.5010408475316733,
+    "random_precision_at_3": 0.2
+  },
+  "pairwise_rnn_test": {
+    "videos_evaluated": 545,
+    "spearman_per_video": 0.014773819452718535,
+    "precision_at_3": 0.274617737003058,
+    "peak_auc_per_video": 0.515287243337702,
+    "random_precision_at_3": 0.2
+  },
+  "validation_selected_precision_at_3": 0.27261687917425614,
+  "validation_pairwise_loss_at_selected_checkpoint": 0.6929295318467277,
+  "encoder_frozen_head_pairwise_trained": true,
+  "limits": [
+    "Replay behavior is a proxy for standout moments, not a guarantee of viral performance.",
+    "Training dataset is English-only; Spanish performance is unvalidated.",
+    "Replay markers are sparse and imperfect annotations."
+  ],
+  "additional_runs": {
+    "transcript_only": {
+      "original_rnn": {
+        "spearman_per_video": 0.05018135766883876,
+        "precision_at_3": 0.29541284403669726,
+        "peak_auc_per_video": 0.5542114460463085
+      },
+      "pairwise_head_tuned": {
+        "spearman_per_video": 0.07758687795385043,
+        "precision_at_3": 0.29174311926605506,
+        "peak_auc_per_video": 0.5451813018785496
+      }
+    },
+    "visual_context": {
+      "original_rnn_with_visual_text_input": {
+        "videos_evaluated": 545,
+        "spearman_per_video": 0.010528443517478149,
+        "precision_at_3": 0.2746177370030581,
+        "peak_auc_per_video": 0.5010408475316733,
+        "random_precision_at_3": 0.2
+      },
+      "pairwise_head_tuned": {
+        "videos_evaluated": 545,
+        "spearman_per_video": 0.014773819452718535,
+        "precision_at_3": 0.274617737003058,
+        "peak_auc_per_video": 0.515287243337702,
+        "random_precision_at_3": 0.2
+      }
+    }
+  }
+}

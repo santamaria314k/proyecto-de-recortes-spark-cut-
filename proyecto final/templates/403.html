@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Acceso denegado — SparkCut{% endblock %}
+{% block content %}
+  <div class="panel">
+    <h1 style="font-size: 32px">Acceso denegado</h1>
+    <p>{{ message|default:"No tienes permiso para acceder a este recurso." }}</p>
+    <a class="btn" href="/">Volver al inicio</a>
+  </div>
+{% endblock %}

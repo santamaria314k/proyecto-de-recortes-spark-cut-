@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}No encontrado — SparkCut{% endblock %}
+{% block content %}
+  <div class="panel">
+    <h1 style="font-size: 32px">No encontrado</h1>
+    <p>{{ message|default:"El recurso no existe o no tienes acceso a él." }}</p>
+    <a class="btn" href="/">Volver al inicio</a>
+  </div>
+{% endblock %}

@@ -1,0 +1,104 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: web
+spec:
+  selector:
+    app: web
+  ports:
+    - port: 8000
+      name: http
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      initContainers:
+        # Espera a que el Job de migraciones haya aplicado todo el esquema.
+        - name: wait-for-migrations
+          image: sparkcut:latest
+          command:
+            - sh
+            - -c
+            - |
+              until python manage.py migrate --check; do
+                echo "esperando migraciones"; sleep 3;
+              done
+          envFrom:
+            - configMapRef:
+                name: sparkcut-config
+            - secretRef:
+                name: sparkcut-secret
+      containers:
+        - name: web
+          image: sparkcut:latest
+          command:
+            - gunicorn
+            - sparkcut.wsgi:application
+            - --bind
+            - 0.0.0.0:8000
+            - --workers
+            - "1"
+            - --timeout
+            - "120"
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: sparkcut-config
+            - secretRef:
+                name: sparkcut-secret
+          volumeMounts:
+            - name: media
+              mountPath: /app/media
+          livenessProbe:
+            httpGet:
+              path: /healthz/
+              port: 8000
+            initialDelaySeconds: 20
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /readyz/
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 200m
+              memory: 512Mi
+            limits:
+              memory: 1Gi
+      volumes:
+        - name: media
+          persistentVolumeClaim:
+            claimName: sparkcut-media
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: web
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: web
+  minReplicas: 1
+  maxReplicas: 3
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70

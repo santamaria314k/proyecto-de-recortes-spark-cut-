@@ -1,0 +1,19 @@
+{
+  "dataset": "behavior-in-the-wild/content-behavior-corpus (cached)",
+  "train_windows": 33659,
+  "selected_using": "549-video validation split; official test not used for selection",
+  "untouched_test_videos": 545,
+  "test_precision_at_3": 0.32782874617737007,
+  "test_precision_at_3_baseline_rnn": 0.29541284403669726,
+  "test_precision_at_3_random": 0.2,
+  "test_spearman_per_video": 0.06263999230012321,
+  "test_spearman_per_video_baseline_rnn": 0.05018135766883876,
+  "blend": {
+    "rnn": 0.3,
+    "tfidf": 0.2,
+    "novelty_next": 0.5
+  },
+  "score_is_probability": false,
+  "target_is_future_virality": false,
+  "note": "Replay is a noisy proxy for standout moments; performance is not a guarantee for Spanish or translated transcripts."
+}

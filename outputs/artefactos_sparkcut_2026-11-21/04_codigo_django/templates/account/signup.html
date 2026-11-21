@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load socialaccount %}
+
+{% block title %}Crear cuenta — SparkCut{% endblock %}
+
+{% block content %}
+  <div class="auth-card panel">
+    <h1 style="font-size: 32px">Crear cuenta</h1>
+    <p class="muted">Regístrate con tu correo o continúa con Google.</p>
+
+    <form method="post" action="{% url 'account_signup' %}" style="margin-top: 24px">
+      {% csrf_token %}
+      {% if form.non_field_errors %}
+        <p class="error">{{ form.non_field_errors|join:" " }}</p>
+      {% endif %}
+      {% for field in form %}
+        <div class="field">
+          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field }}
+          {% if field.help_text %}<span class="muted">{{ field.help_text|safe }}</span>{% endif %}
+          {% for error in field.errors %}<span class="error">{{ error }}</span>{% endfor %}
+        </div>
+      {% endfor %}
+      {{ redirect_field }}
+      <button class="btn" type="submit">Crear cuenta</button>
+    </form>
+
+    {% get_providers as socialaccount_providers %}
+    {% for provider in socialaccount_providers %}
+      {% if provider.id == "google" %}
+        <div class="auth-divider"><span>o</span></div>
+        <a class="btn btn-secondary" style="width: 100%" href="{% provider_login_url 'google' process='login' %}">
+          Continuar con Google
+        </a>
+      {% endif %}
+    {% endfor %}
+
+    <p class="muted" style="margin-top: 24px">
+      ¿Ya tienes cuenta? <a href="{% url 'account_login' %}">Entrar</a>
+    </p>
+  </div>
+{% endblock %}

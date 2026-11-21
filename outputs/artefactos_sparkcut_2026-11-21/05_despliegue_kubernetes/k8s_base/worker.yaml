@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: worker
+  template:
+    metadata:
+      labels:
+        app: worker
+    spec:
+      initContainers:
+        - name: wait-for-migrations
+          image: sparkcut:latest
+          command:
+            - sh
+            - -c
+            - |
+              until python manage.py migrate --check; do
+                echo "esperando migraciones"; sleep 3;
+              done
+          envFrom:
+            - configMapRef:
+                name: sparkcut-config
+            - secretRef:
+                name: sparkcut-secret
+      containers:
+        - name: worker
+          image: sparkcut:latest
+          command: ["celery", "-A", "sparkcut", "worker", "-l", "info", "--concurrency=1", "--prefetch-multiplier=1"]
+          envFrom:
+            - configMapRef:
+                name: sparkcut-config
+            - secretRef:
+                name: sparkcut-secret
+          volumeMounts:
+            - name: media
+              mountPath: /app/media
+          resources:
+            requests:
+              cpu: 300m
+              memory: 768Mi
+            limits:
+              memory: 2Gi
+      volumes:
+        - name: media
+          persistentVolumeClaim:
+            claimName: sparkcut-media

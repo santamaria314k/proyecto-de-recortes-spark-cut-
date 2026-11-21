@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Subir video — SparkCut{% endblock %}
+{% block content %}
+  <h1 style="font-size: 34px">Subir un video</h1>
+  <p class="lead">Archivo local de hasta 500 MB o un enlace. La descarga por enlace puede fallar si el sitio bloquea yt-dlp.</p>
+
+  <div class="notice" style="margin-top: 18px; max-width: 640px">
+    Declaras tener los derechos sobre el contenido que subes. SparkCut solo recorta y transcribe tu video;
+    el puntaje es una estimación y no garantiza resultados en redes sociales.
+  </div>
+
+  <form class="panel" method="post" enctype="multipart/form-data" style="margin-top: 28px; max-width: 640px">
+    {% csrf_token %}
+    {% for field in form %}
+      <div class="field">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        {% if field.help_text %}<span class="muted">{{ field.help_text }}</span>{% endif %}
+        {% for error in field.errors %}<span class="error">{{ error }}</span>{% endfor %}
+      </div>
+    {% endfor %}
+    {% for error in form.non_field_errors %}<p class="error">{{ error }}</p>{% endfor %}
+    <div class="row">
+      <button class="btn" type="submit">Subir y procesar</button>
+      <span class="muted">Formatos: mp4, mov, mkv, webm o avi · máximo 500 MB · hasta 20 minutos.</span>
+      <a class="btn btn-secondary" href="/dashboard/">Cancelar</a>
+    </div>
+  </form>
+{% endblock %}

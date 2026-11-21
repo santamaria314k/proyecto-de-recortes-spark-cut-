@@ -1,0 +1,37 @@
+{
+  "source": "Oxylabs/YouTube_Videos_with_Training_Rights",
+  "source_rows": 100000,
+  "usable_windows": 18543,
+  "split_by": "channel id (disjoint train/validation/test)",
+  "split_sizes": {
+    "train": 13119,
+    "validation": 2795,
+    "test": 2629
+  },
+  "label": "relative video reach and like conversion; weakly inherited by one random timed transcript window",
+  "train_target_q20": 0.2887828290462494,
+  "train_target_q80": 0.7154626965522767,
+  "existing_model": {
+    "n": 2629,
+    "spearman_vs_engagement_proxy": -0.00864687446837841,
+    "auc_top20_engagement": 0.47349953393633915,
+    "average_precision_top20": 0.19787571763388098,
+    "precision_top20": 0.1844106463878327,
+    "random_precision_top20": 0.21300874857360214
+  },
+  "models": [
+    {
+      "seed": 0,
+      "best_val_loss": 0.22343543134029947
+    }
+  ],
+  "important_limit": "These are video-level engagement proxies inherited by one sampled window, not human labels or measured short-clip retention/virality. The recurrent encoder was kept frozen; the regression/classification head was fine-tuned.",
+  "fine_tuned_rnn": {
+    "n": 2629,
+    "spearman_vs_engagement_proxy": 0.033940424015206264,
+    "auc_top20_engagement": 0.4971112683836222,
+    "average_precision_top20": 0.210740282081472,
+    "precision_top20": 0.20912547528517111,
+    "random_precision_top20": 0.21300874857360214
+  }
+}

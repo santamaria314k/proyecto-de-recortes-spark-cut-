@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sparkcut-config
+data:
+  DEBUG: "0"
+  ALLOWED_HOSTS: "sparkcut.local,localhost,127.0.0.1"
+  REDIS_URL: "redis://redis:6379/0"
+  CELERY_TASK_ALWAYS_EAGER: "0"
+  MOCK_SCORER: "0"
+  WHISPER_MODEL: "base"
+  MAX_VIDEO_DURATION_S: "1200"
+  PIPELINE_TIME_LIMIT_S: "3600"
+  MAX_VIDEO_SIZE_MB: "500"
+  ML_ARTIFACTS_DIR: "/app/ml_artifacts"

@@ -1,0 +1,67 @@
+services:
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: sparkcut
+      MYSQL_USER: sparkcut
+      MYSQL_PASSWORD: sparkcut
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      DEBUG: "1"
+      SECRET_KEY: "dev-only-change-me"
+      ALLOWED_HOSTS: "localhost,127.0.0.1"
+      DATABASE_URL: "mysql://sparkcut:sparkcut@db:3306/sparkcut"
+      REDIS_URL: "redis://redis:6379/0"
+      CELERY_TASK_ALWAYS_EAGER: "0"
+      MOCK_SCORER: "0"
+      WHISPER_MODEL: "base"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
+  worker:
+    build: .
+    command: celery -A sparkcut worker -l info --concurrency=1 --prefetch-multiplier=1
+    volumes:
+      - .:/app
+    environment:
+      DEBUG: "1"
+      SECRET_KEY: "dev-only-change-me"
+      ALLOWED_HOSTS: "localhost,127.0.0.1"
+      DATABASE_URL: "mysql://sparkcut:sparkcut@db:3306/sparkcut"
+      REDIS_URL: "redis://redis:6379/0"
+      CELERY_TASK_ALWAYS_EAGER: "0"
+      MOCK_SCORER: "0"
+      WHISPER_MODEL: "base"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
+volumes:
+  mysql_data:

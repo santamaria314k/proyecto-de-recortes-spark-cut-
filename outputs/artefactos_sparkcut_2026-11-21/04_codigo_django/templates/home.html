@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}SparkCut — clips con potencial viral{% endblock %}
+{% block content %}
+  <span class="badge">Django 5 · Celery · MySQL</span>
+  <h1>Convierte videos largos<br>en clips con potencial viral.</h1>
+  <p class="lead">
+    Sube un video de hasta 20 minutos o 500 MB. SparkCut transcribe, puntúa de 10 a 100
+    y recorta los fragmentos con mayor potencial de atención.
+  </p>
+  <div class="row" style="margin-top: 28px">
+    <a class="btn" href="/videos/new/">Subir un video</a>
+    <a class="btn btn-secondary" href="/modelo/">Cómo funciona el modelo</a>
+  </div>
+  <div class="grid grid-2" style="margin-top: 56px">
+    <div class="panel">
+      <h2>Transcripción automática</h2>
+      <p>faster-whisper en CPU con marcas de tiempo por palabra, sin depender de servicios externos.</p>
+    </div>
+    <div class="panel">
+      <h2>Puntaje 10–100</h2>
+      <p>Una RNN BiGRU propia estima el potencial viral de cada ventana de texto.</p>
+    </div>
+    <div class="panel">
+      <h2>Control editorial</h2>
+      <p>Revisa, ajusta con la tijera y descarga los clips que realmente quieres publicar.</p>
+    </div>
+    <div class="panel">
+      <h2>Procesamiento asíncrono</h2>
+      <p>La web nunca procesa video: los workers de Celery se encargan del trabajo pesado.</p>
+    </div>
+  </div>
+{% endblock %}

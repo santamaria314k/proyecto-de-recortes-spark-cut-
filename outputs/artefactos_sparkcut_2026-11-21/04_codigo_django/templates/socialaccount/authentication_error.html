@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}No se pudo iniciar sesión — SparkCut{% endblock %}
+
+{% block content %}
+  <div class="auth-card panel">
+    <h1 style="font-size: 32px">No se pudo iniciar sesión</h1>
+    <p class="error">La autorización con Google se canceló o falló. No se creó ninguna sesión.</p>
+    <a class="btn" href="{% url 'account_login' %}">Volver al acceso</a>
+  </div>
+{% endblock %}

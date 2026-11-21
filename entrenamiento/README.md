@@ -6,7 +6,7 @@ No es necesaria para ejecutar la aplicación web. La aplicación final está en 
 
 Contenido principal:
 
-- `SparkCut_entrenamiento_RNN_v3 (1).ipynb`: notebook final de reproducibilidad alineado con el modelo v6 y la aplicación Django. Ejecuta el entrenamiento canónico y valida paridad de artefactos.
+- `SparkCut_entrenamiento_RNN_v6_final.ipynb`: notebook final de reproducibilidad alineado con el modelo v6 y la aplicación Django. Ejecuta el entrenamiento canónico y valida paridad de artefactos.
 - `train_*.py`, `tune_*.py`, `export_*.py`: entrenamiento y evaluación.
 - `sparkcut_highlights_v4/`, `sparkcut_highlights_v5/`, `sparkcut_highlights_v6/`: versiones experimentales.
 - `model_*.pt`, `tokenizer.model`, `config.json`, `metrics.json`: artefactos históricos de entrenamiento.

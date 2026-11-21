@@ -1,0 +1,20 @@
+# Entornos virtuales y cachés locales
+.venv_sparkcut/
+**/.venv/
+**/venv/
+**/__pycache__/
+**/*.pyc
+**/.pytest_cache/
+
+# Descargas y datasets grandes de entrenamiento
+entrenamiento/.hf_cbc_cache/
+entrenamiento/mrhisum_text_data/
+
+# Salidas generadas localmente
+**/staticfiles/
+**/media/
+*.sqlite3
+
+# Secretos y archivos locales
+.env
+**/.env
